@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أدواتي بلس | أدوات رقمية ذكية ومقالات تقنية ومالية</title>
+    <meta name="description" content="منصة أدواتي بلس توفر لك أدوات ويب مجانية لحساب الضرائب والخصومات، عداد الكلمات، وتوليد كلمات المرور، بالإضافة إلى مقالات تعليمية متخصصة.">
+    
+    <!-- استدعاء خط Cairo العربي العصري من Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- استدعاء مكتبة Tailwind CSS للتصميم المتجاوب -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- استدعاء أيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0f172a',   // كحلي داكن احترافي
+                        accent: '#2563eb',    // أزرق تقني
+                        emerald: '#10b981',   // أخضر زمردي للأزرار والتأكيدات
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- ================= شريط التنقل العلوي (Navbar) ================= -->
+    <header class="bg-white shadow-sm sticky top-0 z-40 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- الشعار -->
+                <a href="#" onclick="showSection('home')" class="flex items-center gap-2.5 group">
+                    <div class="w-10 h-10 bg-accent text-white rounded-xl flex items-center justify-center shadow-md group-hover:bg-blue-700 transition">
+                        <i class="fa-solid fa-layer-group text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold text-primary tracking-tight">أدواتي<span class="text-accent">بلس</span></span>
+                        <span class="block text-[10px] text-slate-500 -mt-1">حلول ذكية ومحتوى هادف</span>
+                    </div>
+                </a>
+
+                <!-- روابط التنقل للشاشات الكبيرة -->
+                <nav class="hidden md:flex items-center space-x-1 space-x-reverse">
+                    <button onclick="showSection('home')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-accent bg-blue-50 transition">الرئيسية</button>
+                    <button onclick="navigateToAnchor('tools-section')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-accent hover:bg-slate-100 transition">الأدوات الذكية</button>
+                    <button onclick="navigateToAnchor('blog-section')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-accent hover:bg-slate-100 transition">المدونة</button>
+                    <button onclick="showSection('about')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-accent hover:bg-slate-100 transition">من نحن</button>
+                    <button onclick="showSection('privacy')" class="nav-btn px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-accent hover:bg-slate-100 transition">سياسة الخصوصية</button>
+                    <button onclick="showSection('contact')" class="nav-btn px-4 py-2 mr-2 rounded-xl text-sm font-bold text-white bg-primary hover:bg-slate-800 transition shadow-sm">اتصل بنا</button>
+                </nav>
+
+                <!-- زر القائمة للهواتف -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- القائمة المنسدلة للهواتف -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 pt-2 pb-4 space-y-1 shadow-lg">
+            <button onclick="showSection('home'); toggleMobileMenu()" class="block w-full text-right px-3 py-2.5 rounded-lg text-base font-semibold text-accent bg-blue-50">الرئيسية</button>
+            <button onclick="navigateToAnchor('tools-section'); toggleMobileMenu()" class="block w-full text-right px-3 py-2.5 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50">الأدوات الذكية</button>
+            <button onclick="navigateToAnchor('blog-section'); toggleMobileMenu()" class="block w-full text-right px-3 py-2.5 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50">المدونة</button>
+            <button onclick="showSection('about'); toggleMobileMenu()" class="block w-full text-right px-3 py-2.5 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50">من نحن</button>
+            <button onclick="showSection('privacy'); toggleMobileMenu()" class="block w-full text-right px-3 py-2.5 rounded-lg text-base font-semibold text-slate-700 hover:bg-slate-50">سياسة الخصوصية</button>
+            <button onclick="showSection('contact'); toggleMobileMenu()" class="block w-full text-right px-3 py-2.5 rounded-lg text-base font-semibold text-white bg-primary mt-2">اتصل بنا</button>
+        </div>
+    </header>
+
+    <!-- ================= المحتوى الرئيسي (Main Container) ================= -->
+    <main class="flex-grow">
+
+        <!-- مساحة إعلانية علوية متجاوبة (Header Ad Slot) -->
+        <div class="max-w-5xl mx-auto px-4 pt-6">
+            <div class="w-full bg-slate-200/70 border-2 border-dashed border-slate-300 rounded-2xl p-4 text-center flex flex-col items-center justify-center min-h-[90px]">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider"><i class="fa-solid fa-rectangle-ad ml-1"></i> مساحة إعلانية متجاوبة - Google AdSense (728x90)</span>
+                <p class="text-[11px] text-slate-400 mt-1">مكان مخصص للإعلانات التلقائية أو البنرات العلوية لزيادة نسبة النقر (CTR)</p>
+            </div>
+        </div>
+
+        <!-- ================= 1. الصفحة الرئيسية (Home View) ================= -->
+        <div id="view-home" class="view-section">
+            
+            <!-- قسم الترحيب (Hero Section) -->
+            <section class="py-12 md:py-16 px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-accent mb-4">
+                        <i class="fa-solid fa-sparkles"></i> مجاني 100% وسريع بدون تسجيل
+                    </span>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary leading-tight mb-5">
+                        أدوات رقمية ومالية ذكية تُنجز مهامك في <span class="text-accent">ثوانٍ معدودة</span>
+                    </h1>
+                    <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+                        نوفر لك مجموعة متكاملة من الحاسبات الدقيقة، أدوات تحرير النصوص، وحلول الأمان الرقمي، مدعومة بمقالات تعليمية متخصصة لتطوير أعمالك وإنتاجيتك.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <a href="#tools-section" class="px-6 py-3.5 rounded-xl bg-accent hover:bg-blue-700 text-white font-bold shadow-lg shadow-blue-500/25 transition flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> استكشف الأدوات الآن
+                        </a>
+                        <a href="#blog-section" class="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-primary border border-slate-200 font-bold shadow-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-book-open"></i> تصفح المقالات
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= قسم الأدوات التفاعلية (Interactive Tools) ================= -->
+            <section id="tools-section" class="py-10 px-4 max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 border-b border-slate-200 pb-4">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-primary">الأدوات التفاعلية السريعة</h2>
+                        <p class="text-slate-500 text-sm mt-1">اختر الأداة المناسبة وابدأ الاستخدام الفوري مباشرة من متصفحك</p>
+                    </div>
+                    <!-- أزرار التبديل السريع بين الأدوات -->
+                    <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                        <button onclick="switchTool('tax')" id="tab-tax" class="tool-tab px-4 py-2 rounded-xl text-sm font-bold bg-accent text-white shadow-sm transition">
+                            <i class="fa-solid fa-calculator ml-1"></i> حاسبة الضريبة والخصم
+                        </button>
+                        <button onclick="switchTool('words')" id="tab-words" class="tool-tab px-4 py-2 rounded-xl text-sm font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
+                            <i class="fa-solid fa-align-right ml-1"></i> عداد الكلمات
+                        </button>
+                        <button onclick="switchTool('password')" id="tab-password" class="tool-tab px-4 py-2 rounded-xl text-sm font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
+                            <i class="fa-solid fa-shield-halved ml-1"></i> مولد كلمات المرور
+                        </button>
+                    </div>
+                </div>
+
+                <!-- حاوية الأداة النشطة -->
+                <div class="bg-white rounded-3xl shadow-md border border-slate-200/80 p-6 sm:p-8">
+                    
+                    <!-- الأداة 1: حاسبة الضريبة والخصومات -->
+                    <div id="tool-tax" class="tool-panel">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-accent flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-percent"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-primary">حاسبة الضريبة (VAT) والخصومات التجارية</h3>
+                                <p class="text-xs sm:text-sm text-slate-500">احسب السعر النهائي بدقة للتجار والمتسوقين مع تفصيل قيمة الخصم والضريبة المضافة</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            <!-- حقول الإدخال -->
+                            <div class="lg:col-span-7 space-y-5">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">المبلغ الأصلي (السعر الأساسي)</label>
+                                    <div class="relative">
+                                        <input type="number" id="tax-amount" value="1000" min="0" step="any" oninput="calculateTax()" class="w-full px-4 py-3.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent focus:border-accent outline-none text-lg font-bold text-primary transition" placeholder="أدخل المبلغ هنا...">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">عملة</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">نسبة الخصم (%)</label>
+                                        <input type="number" id="tax-discount" value="10" min="0" max="100" step="any" oninput="calculateTax()" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent outline-none font-bold text-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">نسبة الضريبة المضافة VAT (%)</label>
+                                        <input type="number" id="tax-rate" value="15" min="0" max="100" step="any" oninput="calculateTax()" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent outline-none font-bold text-primary">
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-wrap gap-2 pt-1">
+                                    <span class="text-xs text-slate-500 self-center ml-1">نسب ضريبة شائعة:</span>
+                                    <button onclick="setTaxRate(15)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-accent text-xs font-bold transition">15% (السعودية)</button>
+                                    <button onclick="setTaxRate(19)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-accent text-xs font-bold transition">19% (تونس/الجزائر)</button>
+                                    <button onclick="setTaxRate(20)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-accent text-xs font-bold transition">20% (المغرب)</button>
+                                    <button onclick="setTaxRate(5)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-accent text-xs font-bold transition">5% (الإمارات)</button>
+                                </div>
+                            </div>
+
+                            <!-- بطاقة النتائج -->
+                            <div class="lg:col-span-5 bg-slate-900 text-white rounded-2xl p-6 space-y-4 shadow-inner">
+                                <h4 class="text-sm font-bold text-slate-400 border-b border-slate-700 pb-3">ملخص الحساب التفصيلي</h4>
+                                
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-slate-300">قيمة الخصم الموفرة:</span>
+                                    <span id="res-discount" class="font-bold text-emerald-400">- 100.00</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-slate-300">السعر بعد الخصم (قبل الضريبة):</span>
+                                    <span id="res-subtotal" class="font-bold text-white">900.00</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-slate-300">قيمة الضريبة المضافة:</span>
+                                    <span id="res-tax" class="font-bold text-amber-400">+ 135.00</span>
+                                </div>
+
+                                <div class="pt-4 border-t border-slate-700 flex justify-between items-center">
+                                    <span class="text-base font-bold text-slate-200">الإجمالي النهائي:</span>
+                                    <span id="res-total" class="text-2xl sm:text-3xl font-extrabold text-blue-400">1,035.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- الأداة 2: عداد الكلمات والأحرف ووقت القراءة -->
+                    <div id="tool-words" class="tool-panel hidden">
+                        <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-file-word"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-primary">عداد الكلمات والأحرف ووقت القراءة</h3>
+                                    <p class="text-xs sm:text-sm text-slate-500">أداة مثالية لكتّاب المحتوى والطلاب لتحليل النصوص ومعرفة توافقها مع السيو</p>
+                                </div>
+                            </div>
+                            <button onclick="clearText()" class="px-4 py-2 rounded-xl text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 transition">
+                                <i class="fa-solid fa-trash-can ml-1"></i> مسح النص
+                            </button>
+                        </div>
+
+                        <!-- إحصائيات فورية -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
+                                <span id="stat-words" class="block text-2xl sm:text-3xl font-extrabold text-accent">0</span>
+                                <span class="text-xs font-bold text-slate-500">كلمة</span>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
+                                <span id="stat-chars" class="block text-2xl sm:text-3xl font-extrabold text-primary">0</span>
+                                <span class="text-xs font-bold text-slate-500">حرف (مع المسافات)</span>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
+                                <span id="stat-paragraphs" class="block text-2xl sm:text-3xl font-extrabold text-emerald-600">0</span>
+                                <span class="text-xs font-bold text-slate-500">فقرة</span>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center">
+                                <span id="stat-time" class="block text-2xl sm:text-3xl font-extrabold text-amber-600">0 د</span>
+                                <span class="text-xs font-bold text-slate-500">وقت القراءة المقدر</span>
+                            </div>
+                        </div>
+
+                        <textarea id="word-input" rows="6" oninput="analyzeText()" class="w-full p-4 rounded-2xl border border-slate-300 focus:ring-2 focus:ring-accent focus:border-accent outline-none text-base leading-relaxed text-slate-800" placeholder="اكتب أو الصق مقالك هنا ليتم تحليله فوراً..."></textarea>
+                    </div>
+
+                    <!-- الأداة 3: مولد كلمات مرور قوية وآمنة -->
+                    <div id="tool-password" class="tool-panel hidden">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-key"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-primary">مولد كلمات المرور القوية والآمنة</h3>
+                                <p class="text-xs sm:text-sm text-slate-500">أنشئ كلمات مرور عشوائية عصية على الاختراق لحماية حساباتك البنكية والشخصية</p>
+                            </div>
+                        </div>
+
+                        <div class="max-w-2xl mx-auto space-y-6">
+                            <!-- شريط عرض كلمة المرور -->
+                            <div class="relative flex items-center bg-slate-900 rounded-2xl p-2 pr-5 shadow-md">
+                                <input type="text" id="generated-password" readonly class="w-full bg-transparent text-white font-mono text-lg sm:text-xl tracking-wider outline-none" value="P@ssw0rd#2026!Secure">
+                                <button onclick="copyPassword()" class="px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm transition flex items-center gap-2 shrink-0">
+                                    <i class="fa-regular fa-copy"></i> <span>نسخ</span>
+                                </button>
+                            </div>
+
+                            <!-- خيارات التخصيص -->
+                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm font-bold text-slate-700 mb-2">
+                                        <span>طول كلمة المرور:</span>
+                                        <span id="pass-length-val" class="text-accent text-base">16 حرفاً</span>
+                                    </div>
+                                    <input type="range" id="pass-length" min="8" max="32" value="16" oninput="updatePassLength()" class="w-full accent-accent cursor-pointer">
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                                    <label class="flex items-center gap-2.5 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:border-accent">
+                                        <input type="checkbox" id="pass-upper" checked onchange="generatePassword()" class="w-4 h-4 accent-accent rounded">
+                                        <span class="text-sm font-semibold">أحرف كبيرة (A-Z)</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:border-accent">
+                                        <input type="checkbox" id="pass-numbers" checked onchange="generatePassword()" class="w-4 h-4 accent-accent rounded">
+                                        <span class="text-sm font-semibold">أرقام (0-9)</span>
+                                    </label>
+                                    <label class="flex items-center gap-2.5 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:border-accent">
+                                        <input type="checkbox" id="pass-symbols" checked onchange="generatePassword()" class="w-4 h-4 accent-accent rounded">
+                                        <span class="text-sm font-semibold">رموز خاصة (!@#$)</span>
+                                    </label>
+                                </div>
+
+                                <button onclick="generatePassword()" class="w-full py-3.5 rounded-xl bg-accent hover:bg-blue-700 text-white font-bold shadow-sm transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-arrows-rotate"></i> توليد كلمة مرور جديدة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- مساحة إعلانية وسطية (In-Feed Ad Placeholder) -->
+            <div class="max-w-5xl mx-auto px-4 my-6">
+                <div class="w-full bg-slate-200/70 border-2 border-dashed border-slate-300 rounded-2xl p-4 text-center flex flex-col items-center justify-center min-h-[100px]">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider"><i class="fa-solid fa-rectangle-ad ml-1"></i> إعلان مدمج داخل المحتوى - Google AdSense</span>
+                    <p class="text-[11px] text-slate-400 mt-1">أفضل موضع إعلاني يفصل بين الأدوات التفاعلية والمقالات التعليمية</p>
+                </div>
+            </div>
+
+            <!-- ================= قسم المدونة التعليمية (Blog Section) ================= -->
+            <section id="blog-section" class="py-12 px-4 max-w-7xl mx-auto">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-xs font-extrabold text-accent uppercase tracking-wider">المعرفة قوة</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-primary mt-1">أحدث المقالات والشروحات التعليمية</h2>
+                    <p class="text-slate-500 text-sm mt-2">محتوى عربي حصري وموثوق يساعدك في فهم الإدارة المالية، تحسين محركات البحث، والأمان الرقمي</p>
+                </div>
+
+                <!-- شبكة بطاقات المقالات -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- بطاقة المقال 1 -->
+                    <article class="bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-xl transition duration-300 flex flex-col">
+                        <div class="h-44 bg-gradient-to-br from-blue-600 to-indigo-800 p-6 flex flex-col justify-between text-white">
+                            <span class="self-start px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold">المال والأعمال</span>
+                            <i class="fa-solid fa-chart-line text-4xl text-white/80 self-end"></i>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-3 text-xs text-slate-400 mb-2">
+                                    <span><i class="fa-regular fa-clock ml-1"></i> 4 دقائق قراءة</span>
+                                    <span>•</span>
+                                    <span>دليل شامل</span>
+                                </div>
+                                <h3 class="text-lg font-extrabold text-primary mb-3 leading-snug">
+                                    كيف تحسب هامش الربح والضريبة لمشروعك الصغير بدقة؟
+                                </h3>
+                                <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                                    تعرف على الفرق الجوهري بين هامش الربح ونسبة الزيادة، وكيفية احتساب ضريبة القيمة المضافة دون التأثير على أرباحك الصافية...
+                                </p>
+                            </div>
+                            <button onclick="openArticle(1)" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-accent hover:text-white text-primary font-bold text-sm transition flex items-center justify-center gap-2">
+                                <span>اقرأ المقال كاملاً</span>
+                                <i class="fa-solid fa-arrow-left text-xs"></i>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- بطاقة المقال 2 -->
+                    <article class="bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-xl transition duration-300 flex flex-col">
+                        <div class="h-44 bg-gradient-to-br from-emerald-600 to-teal-800 p-6 flex flex-col justify-between text-white">
+                            <span class="self-start px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold">السيو وصناعة المحتوى</span>
+                            <i class="fa-solid fa-magnifying-glass-chart text-4xl text-white/80 self-end"></i>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-3 text-xs text-slate-400 mb-2">
+                                    <span><i class="fa-regular fa-clock ml-1"></i> 5 دقائق قراءة</span>
+                                    <span>•</span>
+                                    <span>تحسين الظهور</span>
+                                </div>
+                                <h3 class="text-lg font-extrabold text-primary mb-3 leading-snug">
+                                    7 نصائح ذهبية لكتابة مقالات متوافقة مع السيو (SEO) وتصدر نتائج البحث
+                                </h3>
+                                <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                                    اكتشف أسرار هيكلة المقالات، اختيار الكلمات المفتاحية المناسبة، وأهمية طول النص في إقناع محركات البحث والقبول في AdSense...
+                                </p>
+                            </div>
+                            <button onclick="openArticle(2)" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white text-primary font-bold text-sm transition flex items-center justify-center gap-2">
+                                <span>اقرأ المقال كاملاً</span>
+                                <i class="fa-solid fa-arrow-left text-xs"></i>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- بطاقة المقال 3 -->
+                    <article class="bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-xl transition duration-300 flex flex-col">
+                        <div class="h-44 bg-gradient-to-br from-slate-800 to-purple-900 p-6 flex flex-col justify-between text-white">
+                            <span class="self-start px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold">الأمن السيبراني</span>
+                            <i class="fa-solid fa-user-shield text-4xl text-white/80 self-end"></i>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-3 text-xs text-slate-400 mb-2">
+                                    <span><i class="fa-regular fa-clock ml-1"></i> 3 دقائق قراءة</span>
+                                    <span>•</span>
+                                    <span>حماية البيانات</span>
+                                </div>
+                                <h3 class="text-lg font-extrabold text-primary mb-3 leading-snug">
+                                    أهمية الأمن السيبراني وكيفية إنشاء كلمات مرور عصية على الاختراق
+                                </h3>
+                                <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                                    لماذا لم تعد كلمات المرور التقليدية كافية؟ تعرف على معايير التشفير الحديثة وكيفية حماية حساباتك من هجمات التخمين...
+                                </p>
+                            </div>
+                            <button onclick="openArticle(3)" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-purple-700 hover:text-white text-primary font-bold text-sm transition flex items-center justify-center gap-2">
+                                <span>اقرأ المقال كاملاً</span>
+                                <i class="fa-solid fa-arrow-left text-xs"></i>
+                            </button>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= 2. صفحة من نحن (About Us View) ================= -->
+        <div id="view-about" class="view-section hidden max-w-4xl mx-auto px-4 py-12">
+            <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-sm border border-slate-200">
+                <button onclick="showSection('home')" class="text-sm font-bold text-accent hover:underline mb-6 inline-flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-right"></i> العودة للرئيسية
+                </button>
+                <h1 class="text-3xl font-extrabold text-primary mb-4">من نحن - منصة أدواتي بلس</h1>
+                <div class="space-y-4 text-slate-600 leading-relaxed text-base">
+                    <p>
+                        مرحباً بكم في <strong>أدواتي بلس (Adawati Plus)</strong>، المنصة العربية الرائدة المتخصصة في تقديم حلول رقمية ذكية وأدوات ويب مجانية عالية الدقة، جنباً إلى جنب مع محتوى معرفي وتثقيفي مكتوب بعناية فائقة.
+                    </p>
+                    <h2 class="text-xl font-bold text-primary pt-3">رؤيتنا ورسالتنا</h2>
+                    <p>
+                        نؤمن بأن الوصول إلى الأدوات الرقمية المساعدة والمعلومة الصحيحة يجب أن يكون سهلاً، سريعاً، ومتاحاً للجميع دون تعقيدات أو قيود. لذلك قمنا بتطوير مجموعة من الحاسبات والأدوات التي تعمل مباشرة عبر المتصفح دون الحاجة لتحميل برامج أو مشاركة بياناتك الشخصية.
+                    </p>
+                    <h2 class="text-xl font-bold text-primary pt-3">ماذا نقدم لزوارنا؟</h2>
+                    <ul class="list-disc list-inside space-y-2 pr-2">
+                        <li><strong>أدوات مالية وتجارية:</strong> لتسهيل حساب الضرائب والخصومات لأصحاب المشاريع والمتسوقين.</li>
+                        <li><strong>أدوات صناعة المحتوى:</strong> لمساعدة الكتّاب والطلاب في تحليل النصوص وضبط معايير السيو.</li>
+                        <li><strong>أدوات الأمان الرقمي:</strong> لتعزيز حماية الحسابات الشخصية عبر توليد كلمات مرور مشفرة.</li>
+                        <li><strong>مقالات تعليمية حصرية:</strong> شروحات مبسطة وعملية في مجالات التقنية، المال، والإنتاجية.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 3. صفحة سياسة الخصوصية (Privacy Policy View) ================= -->
+        <div id="view-privacy" class="view-section hidden max-w-4xl mx-auto px-4 py-12">
+            <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-sm border border-slate-200">
+                <button onclick="showSection('home')" class="text-sm font-bold text-accent hover:underline mb-6 inline-flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-right"></i> العودة للرئيسية
+                </button>
+                <h1 class="text-3xl font-extrabold text-primary mb-2">سياسة الخصوصية (Privacy Policy)</h1>
+                <p class="text-xs text-slate-400 mb-6">آخر تحديث: نوفمبر 2026</p>
+                
+                <div class="space-y-5 text-slate-600 leading-relaxed text-sm sm:text-base">
+                    <p>
+                        في موقع <strong>أدواتي بلس</strong>، خصوصية زوارنا لها أهمية بالغة بالنسبة لنا. توضح وثيقة سياسة الخصوصية هذه أنواع المعلومات الشخصية التي يتلقاها ويجمعها الموقع وكيفية استخدامها.
+                    </p>
+
+                    <h2 class="text-lg font-bold text-primary">1. معالجة البيانات في الأدوات الرقمية</h2>
+                    <p>
+                        جميع الأدوات المتوفرة في موقعنا (مثل حاسبة الضريبة، عداد الكلمات، ومولد كلمات المرور) تعمل محلياً داخل متصفحك (Client-Side) باستخدام تقنيات JavaScript. نحن لا نقوم بتخزين أو إرسال النصوص أو كلمات المرور التي تقوم بتوليدها إلى أي خادم خارجي.
+                    </p>
+
+                    <h2 class="text-lg font-bold text-primary">2. ملفات تعريف الارتباط (Cookies) وإعلانات Google AdSense</h2>
+                    <p>
+                        يستخدم موقعنا ملفات تعريف الارتباط لتحسين تجربة المستخدم وتخصيص المحتوى. بالإضافة إلى ذلك، نستخدم شركة <strong>Google</strong> كطرف ثالث لعرض الإعلانات:
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 pr-2">
+                        <li>تستخدم Google، بصفتها مورداً خارجياً، ملفات تعريف الارتباط (مثل ملف تعريف الارتباط DART) لعرض الإعلانات على موقعنا بناءً على زيارات المستخدمين لموقعنا والمواقع الأخرى على شبكة الإنترنت.</li>
+                        <li>يمكن للمستخدمين اختيار عدم استخدام ملف تعريف الارتباط DART من خلال زيارة سياسة الخصوصية الخاصة بشبكة إعلانات Google والمحتوى.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-primary">3. الموافقة</h2>
+                    <p>
+                        باستخدامك لموقعنا الإلكتروني، فإنك توافق بذلك على سياسة الخصوصية الخاصة بنا وتوافق على شروطها.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 4. صفحة اتصل بنا (Contact Us View) ================= -->
+        <div id="view-contact" class="view-section hidden max-w-3xl mx-auto px-4 py-12">
+            <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-sm border border-slate-200">
+                <button onclick="showSection('home')" class="text-sm font-bold text-accent hover:underline mb-6 inline-flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-right"></i> العودة للرئيسية
+                </button>
+                <h1 class="text-3xl font-extrabold text-primary mb-2">اتصل بنا</h1>
+                <p class="text-slate-500 text-sm mb-8">هل لديك اقتراح لأداة جديدة، استفسار تقني، أو طلب تعاون إعلاني؟ يسعدنا تواصلك معنا.</p>
+
+                <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5">الاسم الكامل</label>
+                            <input type="text" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent outline-none" placeholder="أدخل اسمك">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1.5">البريد الإلكتروني</label>
+                            <input type="email" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent outline-none" placeholder="name@example.com">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1.5">موضوع الرسالة</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent outline-none bg-white">
+                            <option>اقتراح إضافة أداة جديدة</option>
+                            <option>استفسار عام أو دعم فني</option>
+                            <option>الإعلانات والشراكات</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1.5">نص الرسالة</label>
+                        <textarea rows="4" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-accent outline-none" placeholder="اكتب رسالتك هنا بالتفصيل..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-accent hover:bg-blue-700 text-white font-bold shadow-md transition">
+                        <i class="fa-solid fa-paper-plane ml-2"></i> إرسال الرسالة
+                    </button>
+                </form>
+
+                <!-- رسالة تأكيد الإرسال (مخفية افتراضياً) -->
+                <div id="contact-success" class="hidden mt-6 p-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check text-2xl text-emerald-600"></i>
+                    <div>
+                        <h4 class="font-bold">تم استلام رسالتك بنجاح!</h4>
+                        <p class="text-sm">شكراً لتواصلك مع فريق أدواتي بلس. سنقوم بالرد عليك عبر البريد الإلكتروني في أقرب وقت ممكن.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================= نافذة قراءة المقال الكامل (Article Reader Modal) ================= -->
+    <div id="article-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 relative my-auto">
+            <!-- رأس النافذة -->
+            <div class="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 px-6 py-4 flex justify-between items-center z-10">
+                <span id="modal-category" class="px-3 py-1 rounded-full bg-blue-50 text-accent text-xs font-bold">تصنيف المقال</span>
+                <button onclick="closeArticle()" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-rose-100 hover:text-rose-600 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- محتوى المقال -->
+            <div class="p-6 sm:p-8">
+                <h2 id="modal-title" class="text-2xl sm:text-3xl font-extrabold text-primary leading-snug mb-4">عنوان المقال</h2>
+                <div class="flex items-center gap-4 text-xs text-slate-400 mb-6 pb-4 border-b border-slate-100">
+                    <span><i class="fa-solid fa-user-pen ml-1"></i> فريق تحرير أدواتي بلس</span>
+                    <span><i class="fa-regular fa-calendar ml-1"></i> نوفمبر 2026</span>
+                </div>
+
+                <!-- مساحة إعلانية داخل المقال (مهمة جداً لـ AdSense) -->
+                <div class="my-5 bg-slate-100 border border-dashed border-slate-300 rounded-xl p-3 text-center">
+                    <span class="text-[11px] font-bold text-slate-400">مساحة إعلانية داخل المقال - In-Article Ad</span>
+                </div>
+
+                <div id="modal-body" class="space-y-4 text-slate-700 leading-loose text-base">
+                    <!-- يتم حقن نص المقال هنا عبر JavaScript -->
+                </div>
+            </div>
+
+            <!-- تذييل النافذة -->
+            <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex justify-between items-center">
+                <span class="text-xs text-slate-500">هل وجدت هذا المقال مفيداً؟</span>
+                <button onclick="closeArticle()" class="px-5 py-2 rounded-xl bg-primary text-white text-sm font-bold hover:bg-slate-800 transition">
+                    إغلاق المقال
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- إشعار منبثق صغير (Toast Notification) -->
+    <div id="toast" class="fixed bottom-5 left-5 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl text-sm font-bold flex items-center gap-2.5 transform translate-y-24 opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toast-msg">تم النسخ بنجاح!</span>
+    </div>
+
+    <!-- ================= التذييل السفلي (Footer) ================= -->
+    <footer class="bg-primary text-slate-300 mt-16 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- عمود التعريف -->
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 bg-accent text-white rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-layer-group text-sm"></i>
+                        </div>
+                        <span class="text-xl font-extrabold text-white">أدواتي<span class="text-accent">بلس</span></span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        منصة عربية متكاملة تجمع بين الأدوات الرقمية السريعة والمقالات التعليمية الموثوقة لمساعدتك في إنجاز أعمالك اليومية بكفاءة عالية.
+                    </p>
+                </div>
+
+                <!-- روابط سريعة -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">الأدوات والأقسام</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><button onclick="showSection('home'); switchTool('tax')" class="hover:text-accent transition">حاسبة الضريبة والخصومات</button></li>
+                        <li><button onclick="showSection('home'); switchTool('words')" class="hover:text-accent transition">عداد الكلمات ووقت القراءة</button></li>
+                        <li><button onclick="showSection('home'); switchTool('password')" class="hover:text-accent transition">مولد كلمات المرور الآمنة</button></li>
+                        <li><button onclick="navigateToAnchor('blog-section')" class="hover:text-accent transition">المدونة التعليمية</button></li>
+                    </ul>
+                </div>
+
+                <!-- الصفحات القانونية (أساسية لقبول AdSense) -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">روابط هامة وسياسات الموقع</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><button onclick="showSection('about')" class="hover:text-accent transition">من نحن</button></li>
+                        <li><button onclick="showSection('privacy')" class="hover:text-accent transition">سياسة الخصوصية (Privacy Policy)</button></li>
+                        <li><button onclick="showSection('contact')" class="hover:text-accent transition">اتصل بنا</button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+                <p>© 2026 جميع الحقوق محفوظة لمنصة أدواتي بلس (Adawati Plus).</p>
+                <p>مصمم وفق معايير الجودة وتجربة المستخدم الخاصة بـ Google AdSense.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= الأكواد البرمجية التفاعلية (JavaScript) ================= -->
+    <script>
+        // 1. إدارة التنقل بين الصفحات والأقسام
+        function showSection(sectionName) {
+            // إخفاء جميع الأقسام الرئيسية
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('hidden'));
+            
+            // إظهار القسم المطلوب
+            const target = document.getElementById('view-' + sectionName);
+            if (target) {
+                target.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function navigateToAnchor(anchorId) {
+            showSection('home');
+            setTimeout(() => {
+                const el = document.getElementById(anchorId);
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 50);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        // 2. التبديل بين الأدوات التفاعلية
+        function switchTool(toolName) {
+            // إخفاء جميع لوحات الأدوات
+            document.querySelectorAll('.tool-panel').forEach(panel => panel.classList.add('hidden'));
+            // إعادة ضبط أزرار التبويب
+            document.querySelectorAll('.tool-tab').forEach(tab => {
+                tab.classList.remove('bg-accent', 'text-white', 'shadow-sm');
+                tab.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+            });
+
+            // تفعيل الأداة المختارة
+            document.getElementById('tool-' + toolName).classList.remove('hidden');
+            const activeTab = document.getElementById('tab-' + toolName);
+            activeTab.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+            activeTab.classList.add('bg-accent', 'text-white', 'shadow-sm');
+        }
+
+        // 3. منطق الأداة الأولى: حاسبة الضريبة والخصم
+        function setTaxRate(rate) {
+            document.getElementById('tax-rate').value = rate;
+            calculateTax();
+        }
+
+        function calculateTax() {
+            const amount = parseFloat(document.getElementById('tax-amount').value) || 0;
+            const discountPercent = parseFloat(document.getElementById('tax-discount').value) || 0;
+            const taxPercent = parseFloat(document.getElementById('tax-rate').value) || 0;
+
+            const discountValue = amount * (discountPercent / 100);
+            const subtotal = Math.max(0, amount - discountValue);
+            const taxValue = subtotal * (taxPercent / 100);
+            const total = subtotal + taxValue;
+
+            document.getElementById('res-discount').textContent = '- ' + discountValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('res-subtotal').textContent = subtotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('res-tax').textContent = '+ ' + taxValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('res-total').textContent = total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // 4. منطق الأداة الثانية: عداد الكلمات والأحرف
+        function analyzeText() {
+            const text = document.getElementById('word-input').value;
+            const trimmed = text.trim();
+            
+            const words = trimmed ? trimmed.split(/\s+/).length : 0;
+            const chars = text.length;
+            const paragraphs = trimmed ? trimmed.split(/\n+/).filter(p => p.trim().length > 0).length : 0;
+            const readingMinutes = Math.ceil(words / 200); // متوسط القراءة 200 كلمة في الدقيقة
+
+            document.getElementById('stat-words').textContent = words;
+            document.getElementById('stat-chars').textContent = chars;
+            document.getElementById('stat-paragraphs').textContent = paragraphs;
+            document.getElementById('stat-time').textContent = words === 0 ? '0 د' : readingMinutes + ' د';
+        }
+
+        function clearText() {
+            document.getElementById('word-input').value = '';
+            analyzeText();
+        }
+
+        // 5. منطق الأداة الثالثة: مولد كلمات المرور
+        function updatePassLength() {
+            const len = document.getElementById('pass-length').value;
+            document.getElementById('pass-length-val').textContent = len + ' حرفاً';
+            generatePassword();
+        }
+
+        function generatePassword() {
+            const length = parseInt(document.getElementById('pass-length').value);
+            const includeUpper = document.getElementById('pass-upper').checked;
+            const includeNumbers = document.getElementById('pass-numbers').checked;
+            const includeSymbols = document.getElementById('pass-symbols').checked;
+
+            const lowerChars = 'abcdefghijklmnopqrstuvwxyz';
+            const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numberChars = '0123456789';
+            const symbolChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            let charPool = lowerChars;
+            if (includeUpper) charPool += upperChars;
+            if (includeNumbers) charPool += numberChars;
+            if (includeSymbols) charPool += symbolChars;
+
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charPool.length);
+                password += charPool[randomIndex];
+            }
+
+            document.getElementById('generated-password').value = password;
+        }
+
+        function copyPassword() {
+            const passInput = document.getElementById('generated-password');
+            passInput.select();
+            passInput.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            showToast('تم نسخ كلمة المرور إلى الحافظة بنجاح!');
+        }
+
+        // 6. قاعدة بيانات المقالات الكاملة (للقراءة داخل النافذة المنبثقة)
+        const articlesData = {
+            1: {
+                category: 'المال والأعمال',
+                title: 'كيف تحسب هامش الربح والضريبة لمشروعك الصغير بدقة؟',
+                content: `
+                    <p>يُعد التسعير الدقيق للمنتجات والخدمات حجر الأساس لنجاح أي مشروع تجاري صغير أو متوسط. يقع الكثير من رواد الأعمال المبتدئين في خطأ شائع يتمثل في الخلط بين <strong>نسبة الزيادة على التكلفة (Markup)</strong> و<strong>هامش الربح الصافي (Profit Margin)</strong>، بالإضافة إلى إغفال تأثير ضريبة القيمة المضافة (VAT).</p>
+                    <h3 class="text-xl font-bold text-primary mt-6 mb-2">أولاً: الفرق بين هامش الربح ونسبة الزيادة</h3>
+                    <p>إذا اشتريت منتجاً بمبلغ 100 دولار وبعته بمبلغ 125 دولاراً، فإن ربحك الصافي هو 25 دولاراً. هنا تكون نسبة الزيادة على التكلفة هي 25%، بينما هامش الربح من سعر البيع هو (25 ÷ 125) = 20% فقط. فهم هذا الفرق يحميك من الخسارة عند تقديم خصومات ترويجية لعملائك.</p>
+                    <h3 class="text-xl font-bold text-primary mt-6 mb-2">ثانياً: التعامل الصحيح مع ضريبة القيمة المضافة</h3>
+                    <p>الضريبة المضافة هي مبلغ تحصّله نيابة عن الجهات الضريبية وليست جزءاً من أرباحك. لذلك، عند تقديم خصم للعميل، يجب تطبيق الخصم أولاً على السعر الأساسي للمنتج، ثم احتساب الضريبة على المبلغ الصافي بعد الخصم، وهو ما تقوم به <strong>حاسبة الضريبة والخصومات</strong> في موقعنا بدقة متناهية.</p>
+                `
+            },
+            2: {
+                category: 'السيو وصناعة المحتوى',
+                title: '7 نصائح ذهبية لكتابة مقالات متوافقة مع السيو (SEO) وتصدر نتائج البحث',
+                content: `
+                    <p>كتابة محتوى عالي الجودة لا تقتصر فقط على صياغة جمل لغوية سليمة، بل تتطلب فهم طريقة عمل محركات البحث مثل جوجل، وتقديم إجابة شافية ومباشرة لنية الباحث.</p>
+                    <h3 class="text-xl font-bold text-primary mt-6 mb-2">1. التركيز على القيمة المضافة والأصالة</h3>
+                    <p>تفضل خوارزميات جوجل وأنظمة مراجعة Google AdSense المقالات الحصرية التي تقدم حلولاً عملية أو معلومات منظمة غير منسوخة من مواقع أخرى. احرص دائماً على أن يتجاوز مقالك 600 إلى 1000 كلمة عند شرح المواضيع التعليمية.</p>
+                    <h3 class="text-xl font-bold text-primary mt-6 mb-2">2. تقسيم المقال بعناوين فرعية واضحة</h3>
+                    <p>استخدم وسوم العناوين (H2 و H3) لتقسيم المقال إلى فقرات قصيرة وسهلة القراءة على الهواتف الذكية. القارئ يميل لمسح المقال بصرياً قبل البدء في القراءة المتعمقة.</p>
+                    <h3 class="text-xl font-bold text-primary mt-6 mb-2">3. استخدام الأدوات المساعدة لضبط النص</h3>
+                    <p>استعن بأداة <strong>عداد الكلمات</strong> لمعرفة طول مقالك ووقت القراءة المقدر، مما يساعدك في الحفاظ على توازن المحتوى وتجنب الحشو غير المفيد.</p>
+                `
+            },
+            3: {
+                category: 'الأمن السيبراني',
+                title: 'أهمية الأمن السيبراني وكيفية إنشاء كلمات مرور عصية على الاختراق',
+                content: `
+                    <p>في عصر التحول الرقمي، أصبحت حساباتنا الإلكترونية تحتوي على بيانات حساسة للغاية بدءاً من البريد الإلكتروني وصولاً إلى الحسابات البنكية ومنصات العمل. وتُعد كلمات المرور الضعيفة أو المكررة الثغرة الأولى التي يستغلها المخترقون.</p>
+                    <h3 class="text-xl font-bold text-primary mt-6 mb-2">كيف تعمل هجمات التخمين الحديثة؟</h3>
+                    <p>تستخدم برمجيات الاختراق الحديثة معالجات فائقة السرعة قادرة على تجربة مليارات الاحتمالات في الثانية الواحدة. كلمات المرور المكونة من 8 أحرف بسيطة أو تواريخ ميلاد يمكن كسرها في أقل من دقيقة واحدة!</p>
+                    <h3 class="text-xl font-bold text-primary mt-6 mb-2">قواعد كلمة المرور المثالية</h3>
+                    <ul class="list-disc list-inside space-y-2 pr-2">
+                        <li>أن لا يقل طول كلمة المرور عن 14 إلى 16 حرفاً.</li>
+                        <li>دمج الأحرف الكبيرة والصغيرة مع الأرقام والرموز الخاصة بشكل عشوائي تماماً.</li>
+                        <li>عدم استخدام نفس كلمة المرور لأكثر من موقع واحد، وتفعيل المصادقة الثنائية (2FA) دائماً.</li>
+                    </ul>
+                `
+            }
+        };
+
+        function openArticle(id) {
+            const article = articlesData[id];
+            if (!article) return;
+
+            document.getElementById('modal-category').textContent = article.category;
+            document.getElementById('modal-title').textContent = article.title;
+            document.getElementById('modal-body').innerHTML = article.content;
+
+            const modal = document.getElementById('article-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // منع تمرير الصفحة الخلفية
+        }
+
+        function closeArticle() {
+            const modal = document.getElementById('article-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // إغلاق النافذة عند النقر خارجها
+        document.getElementById('article-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeArticle();
+        });
+
+        // 7. معالجة نموذج اتصل بنا
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            document.getElementById('contact-form').reset();
+            document.getElementById('contact-success').classList.remove('hidden');
+            showToast('تم إرسال رسالتك بنجاح!');
+        }
+
+        // 8. دالة الإشعار المنبثق
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        // تهيئة الحسابات وكلمة المرور عند تحميل الصفحة
+        window.onload = function() {
+            calculateTax();
+            generatePassword();
+        };
+    </script>
+<script data-cfasync="false" src="https://bauval.org/14/16bc4b45380b1712c392e72d5444e5a0"></script>
+</body>
+</html>
